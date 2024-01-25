@@ -1,0 +1,16 @@
+# Ignore Visual Studio related files and directories
+.vs/
+
+# Ignore generated binaries and object files
+bin/
+obj/
+
+# Ignore NuGet packages directory
+packages/
+
+# Ignore Web.config file
+Web.config
+
+# Ignore Web.config template files
+Web.config.Debug.template
+Web.config.Release.template
