@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\NoteController.cs" />
+    <Compile Include="Controllers\NoteBookController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Data\NoteRepository.cs" />

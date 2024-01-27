@@ -39,9 +39,8 @@ namespace EasyXNoteDataAccessAPI.Data
                                 UserID = (int)reader["UserID"],
                                 NoteBookName = reader["NoteBookName"].ToString(),
                                 IsDefault = (bool)reader["IsDefault"],
-                                SortOrder = (int)reader["SortOrder"]
+                                SortOrder = reader["SortOrder"] != DBNull.Value ? (int)reader["SortOrder"] : 0
                             });
-
                         }
                     }
                 }
