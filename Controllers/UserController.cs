@@ -21,6 +21,19 @@ namespace EasyXNoteDataAccessAPI.Controllers
         {
             return userService.GetAllUsers();
         }
+
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] User user)
+        {
+            if (user == null)
+            {
+                return BadRequest("Invalid user data");
+            }
+
+            userService.InsertUser(user);
+            return Ok("User inserted successfully");
+        }
+
         /*
         public IEnumerable<User> Get()
         {

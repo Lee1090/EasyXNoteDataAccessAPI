@@ -72,17 +72,57 @@ namespace EasyXNoteDataAccessAPI.Data
                 // 处理数据库连接异常
                 Console.WriteLine($"Database connection error: {ex.Message}");
                 // 可以记录日志、发送通知等其他操作
-                return new { success = false, error = new { code = 500, message = "Internal Server Error" } };
+                return new { success = false, error = new { code = 500, message = "DataBase connection Error" } };
             }
             catch (Exception ex)
             {
                 // 处理其他异常
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 // 可以记录日志、发送通知等其他操作
-                return new { success = false, error = new { code = 500, message = "Internal Server Error" } };
+                return new { success = false, error = new { code = 500, message = ex.Message } };
+            }
+        }
+        public object InsertUser(User user)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "INSERT INTO [EasyXNote].[User] (UserName, Email, PasswordHash, PasswordSalt, CreatedDate) " +
+                                   "VALUES (@UserName, @Email, @PasswordHash, @PasswordSalt, @CreatedDate)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserName", user.UserName);
+                        command.Parameters.AddWithValue("@Email", user.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                        command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
+                        command.Parameters.AddWithValue("@CreatedDate", user.CreatedDate);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                return new { success = true, message = "User inserted successfully" };
+            }
+            catch (SqlException ex)
+            {
+                // 处理数据库连接异常
+                Console.WriteLine($"Database connection error: {ex.Message}");
+                // 可以记录日志、发送通知等其他操作
+                return new { success = false, error = new { code = 500, message = "DataBase connection Error" } };
+            }
+            catch (Exception ex)
+            {
+                // 处理其他异常
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // 可以记录日志、发送通知等其他操作
+                return new { success = false, error = new { code = 500, message = ex.Message } };
             }
         }
     }
+
     /*
     public class UserRepository
     {
