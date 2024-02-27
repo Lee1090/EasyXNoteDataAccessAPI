@@ -8,18 +8,18 @@ namespace EasyXNoteDataAccessAPI.Controllers
 {
     public class UserController : ApiController
     {
-        private readonly UserService userService;   // Dependency injection
+        private readonly UserService _userService;   // Dependency injection
 
 
         public UserController()
         {
-            userService = new UserService();
+            _userService = new UserService();
         }
 
         [HttpGet]
         public object Get()
         {
-            return userService.GetAllUsers();
+            return _userService.GetAllUsers();
         }
 
         [HttpPost]
@@ -30,7 +30,7 @@ namespace EasyXNoteDataAccessAPI.Controllers
                 return BadRequest("Invalid user data");
             }
 
-            userService.InsertUser(user);
+            _userService.InsertUser(user);
             return Ok("User inserted successfully");
         }
 

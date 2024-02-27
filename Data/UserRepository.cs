@@ -5,6 +5,7 @@ using EasyXNoteDataAccessAPI.Models;
 using System.Configuration;
 using EasyXNoteDataAccessAPI.Data;
 using System.Web.Http;
+using System.Data;
 
 namespace EasyXNoteDataAccessAPI.Data
 {
@@ -82,6 +83,57 @@ namespace EasyXNoteDataAccessAPI.Data
                 return new { success = false, error = new { code = 500, message = ex.Message } };
             }
         }
+        public object GetUserByUserName(string userName)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM [EasyXNote].[User] WHERE UserName = @UserName";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserName", userName);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                User user = new User
+                                {
+                                    UserID = (int)reader["UserID"],
+                                    UserName = reader["UserName"].ToString(),
+                                    Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : null,
+                                    PasswordHash = reader["PasswordHash"].ToString(),
+                                    PasswordSalt = reader["PasswordSalt"].ToString(),
+                                    CreatedDate = (DateTime)reader["CreatedDate"]
+                                };
+                                return new { success = true, data = user };
+                            }
+                            else
+                            {
+                                return new { success = false, error = new { code = 404, message = "User not found" } };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                // 处理数据库连接异常
+                Console.WriteLine($"Database connection error: {ex.Message}");
+                // 可以记录日志、发送通知等其他操作
+                return new { success = false, error = new { code = 500, message = "DataBase connection Error" } };
+            }
+            catch (Exception ex)
+            {
+                // 处理其他异常
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // 可以记录日志、发送通知等其他操作
+                return new { success = false, error = new { code = 500, message = ex.Message } };
+            }
+        }
         public object InsertUser(User user)
         {
             try
@@ -111,7 +163,7 @@ namespace EasyXNoteDataAccessAPI.Data
                 // 处理数据库连接异常
                 Console.WriteLine($"Database connection error: {ex.Message}");
                 // 可以记录日志、发送通知等其他操作
-                return new { success = false, error = new { code = 500, message = "DataBase connection Error" } };
+                return new { success = false, error = new { code = 500, message = ex.Message } };
             }
             catch (Exception ex)
             {

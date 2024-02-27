@@ -7,27 +7,27 @@ namespace EasyXNoteDataAccessAPI.Services
 {
     public class UserService
     {
-        private readonly UserRepository userRepository;
-        private readonly UserProfileRepository userProfileRepository;
+        private readonly UserRepository _userRepository;
+        private readonly UserProfileRepository _userProfileRepository;
 
         public UserService()
         {
-            userRepository = new UserRepository();
-            userProfileRepository = new UserProfileRepository();
+            _userRepository = new UserRepository();
+            _userProfileRepository = new UserProfileRepository();
         }
 
         public object GetAllUsers()
         {
-            return userRepository.GetAllUsers();
+            return _userRepository.GetAllUsers();
         }
         public object GetAllUserProfiles()
         {
-            return userProfileRepository.GetAllUserProfiles();
+            return _userProfileRepository.GetAllUserProfiles();
         }
 
         public void InsertUser(User user)
         {
-            userRepository.InsertUser(user);
+            _userRepository.InsertUser(user);
         }
         /*
         public IEnumerable<User> GetAllUsers()
