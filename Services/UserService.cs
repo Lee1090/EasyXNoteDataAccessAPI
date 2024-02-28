@@ -25,9 +25,9 @@ namespace EasyXNoteDataAccessAPI.Services
             return _userProfileRepository.GetAllUserProfiles();
         }
 
-        public void InsertUser(User user)
+        public object InsertUser(User user)
         {
-            _userRepository.InsertUser(user);
+            return _userRepository.InsertUser(user);
         }
         /*
         public IEnumerable<User> GetAllUsers()

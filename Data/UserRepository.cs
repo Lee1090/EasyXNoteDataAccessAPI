@@ -160,17 +160,13 @@ namespace EasyXNoteDataAccessAPI.Data
             }
             catch (SqlException ex)
             {
-                // 处理数据库连接异常
                 Console.WriteLine($"Database connection error: {ex.Message}");
-                // 可以记录日志、发送通知等其他操作
                 return new { success = false, error = new { code = 500, message = ex.Message } };
             }
             catch (Exception ex)
             {
-                // 处理其他异常
                 Console.WriteLine($"An error occurred: {ex.Message}");
-                // 可以记录日志、发送通知等其他操作
-                return new { success = false, error = new { code = 500, message = ex.Message } };
+                return new { success = false, error = new { code = 501, message = ex.Message } };
             }
         }
     }
